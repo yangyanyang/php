@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Basic DataGrid - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.net/Public/js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.net/Public/js/easyui/themes/icon.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+	<h2>Basic DataGrid</h2>
+	<p>The DataGrid is created from markup, no JavaScript code needed.</p>
+	<div style="margin:20px 0;"></div>
+	
+	<!-- <table class="easyui-datagrid" title="Basic DataGrid" style="width:700px;height:250px"
+			data-options="singleSelect:true,collapsible:true,url:'a.json',method:'get'"
+			rownumbers="true" pagination="true">
+		<thead>
+			<tr>
+				<th data-options="field:'name',width:300">姓名</th>
+				<th data-options="field:'morning',width:200">上班时间</th>
+				<th data-options="field:'night',width:200">下班时间</th>
+				
+			</tr>
+		</thead>
+	</table> -->
+	<a href="images/edit_add.png.jpg" class="lightbox">这是一个最简单的弹层</a>
+	<script type="text/javascript">
+		var data =[{"user_id":"1","user_name":"aaa"}];
+		var obj={};
+       	obj.user_id='';
+      	obj.user_name='-请选择-'
+       	data.splice(0,0,obj);
+       	//在数组0位置插入obj,不删除原来的元素
+       	//console.log('数组：',data); 
+       	console.log('initPieMenace data:',JSON.stringify(data));
+
+       	//return data; 
+	</script> 
+</body>
+</html>

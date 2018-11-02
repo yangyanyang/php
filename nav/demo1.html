@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>demo1</title>
+	<script src="echarts.js"></script>
+	<script src="jquery-3.3.1.min.js"></script>
+	<style type="text/css" media="screen">
+	    *{margin:0;padding:0;}
+		.userPlaceMain 
+		{
+		    clear: both;
+		    width:100%;
+		    height: 50px;
+		    line-height: 50px;
+		    background: #099ecc;
+		    padding: 0 20px;
+		    color: White;
+		    -moz-box-shadow: 5px 5px 10px #B7B7B7;
+		    box-shadow: 5px 5px 10px #B7B7B7;
+		}
+		.userPlaceMain ul{
+			list-style:none;
+		}
+		.userPlaceMain ul li {
+		    float: left;
+		    margin-right: 10px;
+		}
+		.userPlaceMain ul li a 
+		{
+		    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+		    color: White;
+		    display: inline-block;
+		    width: 100px;
+		    height: 100%;
+		    font-size: 15px;
+		    text-align: center;
+		    margin-right: 10px;
+		    text-decoration:none;
+		}
+		.userPlaceMain ul li a:hover
+		{
+			background: #0074A6;
+			color:White; 
+		}
+		.content
+		{
+			margin-top: 32px;
+
+		}
+		.active{
+			background: #0074A6;
+		}
+		.nav li ol{			
+		 	list-style:none;
+			width:100px;
+			height:0px;
+			overflow:hidden;
+			position:absolute;
+			background:#099ecc;			
+			z-index: 20000;
+		}
+		.nav li ol li{
+			z-index: 20000;
+		}
+		.nav li ol a{
+			text-align: left;
+			padding-left: 24px;
+		}
+		.nav li:hover ol{			
+		    height:220px;
+		    
+		}
+	</style>
+
+</head>
+<body>
+	<body>
+		<div class="userPlaceMain">
+		<ul class="nav">
+		    <li>
+		    	<a class="active" id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='demo1.html'" >首页</a>
+		    </li>
+		    <li>
+		    	<a id="userPlaceId_2" href="javascript:;" onclick="javascript:window.location='demo1.html'" >形象展示</a>
+		    </li>
+		    <li>
+		    	<a  id="userPlaceId_3" href="javascript:;" >出勤</a>
+		    	<ol>
+					<li><a href="../tab/select.html">出勤记录</a></li>
+					<li><a href="../tab/daka_image.html">补打卡</a></li>
+					<li><a href="#">请假</a></li>
+					<li><a href="#">未知区域</a></li>
+
+				</ol>
+		    </li>
+		</ul>
+	</div>
+	<div class="content">
+		<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+		<div>
+			<h1>考勤相关</h1>
+		</div>
+	    <div id="main" style="width: 600px;height:400px;float: left"></div>
+	    <div id="container" style=" width:600px;height:400px;float: left"></div>
+	</div>
+	    
+	</body>
+	<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        //var data="";
+        //var JsonObjs1 = "";
+	    $.ajax({
+	        type: "get",
+	        url: "demo1.php",
+	        success: function (data)
+	        {
+	        	//JsonObjs1 = $.parseJSON(data)
+	        	//console.log(JsonObjs1);
+	           //for in遍历php返回的json数据
+	            // for(var k in data)
+	            // {
+	            //     //data = data;
+	            //     data[k] = data[k];
+	            //      console.log(data[k]);
+
+	            // }
+	            drawbar(data);
+
+	        },
+	        error:function () {
+	            alert("1111");
+	        }
+	    });
+	    //console.log(data);
+
+	    function drawbar(data){
+	    	var myChart = echarts.init(document.getElementById('main'));
+
+    // // 指定图表的配置项和数据
+		    var option = {
+		    	color:['#003366', '#006699', '#4cabce', '#e5323e'],
+		        title: {
+		            text: '考勤汇总'
+		        },
+		        tooltip: {},
+		        legend: {
+		            data:data.legend
+		        },
+		        xAxis: {
+		            data: data.xAxis_data,
+		            axisLabel:{
+		            	interval:0
+		            }
+		        },
+		        yAxis: {},
+		        series: data.series
+		    };
+
+		    // 使用刚指定的配置项和数据显示图表。
+		    myChart.setOption(option);
+
+	    }
+
+	    var dom = document.getElementById("container");
+		var myChart = echarts.init(dom);
+		var app = {};
+		option = null;
+		option = {
+		    title : {
+		        text: '某站点用户访问来源',
+		        subtext: '纯属虚构',
+		        x:'center'
+		    },
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+		    legend: {
+		        orient: 'vertical',
+		        left: 'left',
+		        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+		    },
+		    series : [
+		        {
+		            name: '访问来源',
+		            type: 'pie',
+		            radius : '55%',
+		            center: ['50%', '60%'],
+		            data:[
+		                {value:335, name:'直接访问'},
+		                {value:310, name:'邮件营销'},
+		                {value:234, name:'联盟广告'},
+		                {value:135, name:'视频广告'},
+		                {value:1548, name:'搜索引擎'}
+		            ],
+		            itemStyle: {
+		                emphasis: {
+		                    shadowBlur: 10,
+		                    shadowOffsetX: 0,
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+		                }
+		            }
+		        }
+		    ]
+		};
+		;
+		if (option && typeof option === "object") {
+		    myChart.setOption(option, true);
+		}
+
+        
+    </script>
+
+</body>
+</html>

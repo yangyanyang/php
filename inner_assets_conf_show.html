@@ -1,0 +1,161 @@
+{template header}
+<body class="easyui-layout">
+	<style type="text/css">
+		/*.css_config .label_1{
+			font-size:12px;
+			padding-left:10px;
+			vertical-align:top;
+			height:22px;
+			line-height:22px;
+			width:120px;
+			text-align:right;
+			width:220px;
+		}
+		.btn_config{
+			width:100%;
+			margin-left:10px;
+			padding: 10px 0 120px 100px;
+		}*/
+		.css_content .check_margin{
+			width:30px;
+		}
+		.hide{
+			display: none;
+		}
+		.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th ,.table > tbody + tbody{
+		    border-top: none;
+		}
+	</style>
+	<div data-options="region:'north',border:false" class="layout-panel-north-height">
+	    <div class="hui-Panel" id="Panel-1">
+	        <div class="hui-Panel-header tab_bg" id="Header-1">
+	            <a class="cur" href="javascript:;">
+	                {lang tree_ips_inner_assets_conf}
+	            </a>
+	        </div>
+	    </div>
+	</div>
+	<div data-options="region:'center',border:false,fit:true" class="easyui-panel">
+		<div class="css_config">
+			<table class="table">
+				<!-- <tr id="conftr_0">
+				    <td class="label_grp"><b>{lang label_page_sep_title}</b></td>
+				    <td class="css_content"></td>
+				</tr> -->
+				<tbody id="group_1">
+			    <tr id="conftr_gen_default_route">
+				    <td class="label_1">{lang tb_home_page_interface_link_up}</td>
+				  	<td class="css_content" style="padding-left:13px;">
+						<span class="check_margin" style="margin-right:30px;">
+							<input class="hide" type="checkbox" name="mod_sw_status" id="mod_sw_status" value="1" <!--{if $param['status']=='1'}-->checked<!--{/if}-->>
+							<input id="conf_f_switch" style="width:60px;height:30px">
+						</span>
+					</td>
+				</tr>
+				<tr id="user_scope">
+                    <td class="label_1">识别范围</td>
+					<td class="css_content">
+                        <span class="select_margin">
+							<select name="src_addr" id="src_addr_cid" class='select long input'>$param['address_option']
+						    </select>
+						</span>
+						<span class="input_prompt">
+                            <a href="javascript:;" onclick="addr_reverse_add('src_addr_cid')" style="text-decoration:underline;">
+							    <img src="./images/default/icons/edit_add.png" style="vertical-align:middle;" alt="新建" title="新建"> 新建</a>
+                        </span>
+					</td>
+					
+                </tr>
+				<tr id="user_scope1">
+                    <td class="label_1">资产告警级别</td>
+					<td class="css_content">
+                        <span class="select_margin">
+						    <select name="recog_scope_name" id="recog_scope_name" class="select long" style="width:200px;">
+							    <option value="any">高</option>
+								<option value="ChinaUnicom">中</option>
+								<option value="ChinaTelecom">低</option>								 
+						    </select>
+						</span>
+					</td>
+                </tr>
+				<tr id="conftr_dnssvr_enable">
+                    <td class="label_1">微信告警</td>
+                    <td class="css_content">
+                        <span class="check_margin"><input type="checkbox" name="enable" id="enable_id" value="1"></span>
+                    </td>
+                </tr>
+				<tr id="conftr_dnssvr_enable">
+                    <td class="label_1">邮件告警</td>
+                    <td class="css_content">
+                        <span class="check_margin"><input type="checkbox" name="enable" id="enable_id" value="1"></span>
+                    </td>
+                </tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="btn_config">
+			<input name="add_new" type="button" title="" value=" {lang but_submit} " class="input_submit" onclick="return form_submit();"/>
+			<input name="cancel" type="button" title="" value=" {lang but_cancel} " class="input_submit" onclick="window.location='?g=inner_assets_conf_show$page['link']'"/>
+		</div>
+<!-- 		<div style='padding:30px'>
+			开启&nbsp;&nbsp;<input type='checkbox' name='mod_sw_status' id='mod_sw_status'/><br/>
+			<div style='padding-top:20px;'>
+				<input name="add_new" type="button" title="" value=" 提交 " class="input_submit" onclick="form_submit()" >
+			</div>
+		</div> -->
+	</div>
+	
+    <!--全部弹出窗口-->
+    <div id="win_box" style="display:none;">
+	<!-- 新建源地址 目的地址 -->
+        <div id="add_ipv4_addr_win" class="easyui-window" title="{lang add_ipv4_addr_title}" data-options="modal:true,closed:true,iconCls:'icon-save',minimizable:false,maximizable:false,collapsible:false
+        " style="width:750px;height:500px;overflow:hidden;">
+            <!--iframe-->
+            <iframe src="about:blank" width="100%" height="100%" frameborder="no" border="0" scrolling="no" id="add_ipv4_addr_iframe"></iframe>
+        </div>
+	</div>
+	<script>
+		// if($param['status']==0){
+		// 	$('#mod_sw_status').removeAttr('checked');
+		// }else if($param['status']==1){
+		// 	$('#mod_sw_status').attr('checked',true);
+		// }
+		function form_submit(){
+			if($("input[name='mod_sw_status']").is(':checked')){
+				var mod_sw_status=1;
+			}else{
+				var mod_sw_status=0;
+			}
+			$.ajax({
+				url:'?g=inner_assets_conf',
+				post:'get',
+				data:{"mod_sw_status":mod_sw_status},
+				success:function(data){
+					if(data==1){
+						alert('开启成功');
+					}else if(data==0){
+						alert('关闭成功');
+					}
+
+				},
+			});
+		}
+		$(function (){
+			var f_value = false;
+			$param['status']=='1' ? f_value = true : f_value = false;
+			$('#conf_f_switch').switchbutton({
+			  	checked: f_value,
+			  	onText : '',
+			  	offText : '',
+			  	onChange: function(checked){
+				    if (checked == true) {
+				    	$("#mod_sw_status").attr("checked", true);
+				    }else{
+				    	$("#mod_sw_status").attr("checked", false);
+				    };
+			  	}
+			})
+		});
+	</script>
+</body>
+</html>

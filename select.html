@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Basic Tabs - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.net/Public/js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="http://www.jeasyui.net/Public/js/easyui/themes/icon.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+	<div style="margin:20px 0 10px 0;">
+		<table class="table" style="margin-bottom: 16px ">
+			<tr id="user_scope1">
+	            <td class="label_1" style="padding-right: 8px;">选择需要查询的姓名</td>
+				<td class="css_content">
+	                <span class="select_margin">
+					    <!--<select name="recog_scope_name" id="user_id" class="select long" style="width:200px;">
+						    <option value="1">zhouruihong</option>
+							<option value="2">houxiaochao</option>
+							<option value="10">yangyanyang</option>
+					    </select>-->
+					    <input id="cc" style="width:100px" >
+	                    </input>
+
+					</span>
+					<!--<span>Item ID:</span>
+		               <input id="user_id" style="line-height:26px;border:1px solid #ccc"> -->
+
+				</td>
+				<!--<td>
+					<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">查询</a>
+				</td>-->
+	        </tr>
+	    </table>
+        <div >
+			<table class="easyui-datagrid" id="control_assets_tab" style="width:700px;height:500px">
+			</table>
+		</div>
+
+	</div>
+<script type="text/javascript">
+	// $('#control_assets_tab').datagrid(
+	// 			'load',{user_id: '1'
+	// });
+	$('#control_assets_tab').datagrid({
+        url: "b.php",        
+        columns: [[
+        	
+            {
+                field: 'user_id',
+                title: 'ID',
+                width: '10%'
+             
+            },{
+                field: 'user_name',
+                title: '姓名',
+                width: '30%'
+             
+            },
+            {
+                field: 'first',
+                title: '上班时间',
+                width: '30%'
+             
+            }, {
+                field: 'end',
+                title: '下班时间',
+                width: '30%'
+            }
+        
+    ]],
+ //    onLoadSuccess: function (row) {
+ //               // 默认选择第一项 res为后台返回的数据
+	// 	            if (row) {
+	// 	            	$('#cc').combobox('setValue',row[0].user_id);
+	// 	                //doSearch();
+	// 	                //break;
+	// 	                }
+	// },
+    border: true,
+    pagination: true,
+    pageSize: 20,
+    pageList: [20, 50],
+    striped: true
+});
+	var textValue = ''
+	function doSearch(){
+			$('#control_assets_tab').datagrid(
+				'load',{
+					user_id: $('#cc').combobox('getValue'),
+					user_name: $('#cc').combobox('getText')
+			});
+		}
+
+		$(function(){
+			$('#cc').combobox({
+				url:"selecid.php",
+			    valueField:"user_id",
+			    textField:"user_name",
+				formatter:function(row){
+					//var imageFile = 'images/' + row.icon;
+					return '<span class="item-text">'+row.user_name+'</span>';
+				},
+			    // onLoadSuccess: function (row) {
+       //         // 默认选择第一项 res为后台返回的数据
+		     //        if (row) {
+		     //            $('#cc').combobox('setValue',row[0].user_id);
+		     //            }
+		     //        }
+
+			onSelect:function(){
+		        //可以在此处写点击时一些逻辑
+		        //获取被选中的value值(不在这方法中同让使用)
+		       	//textValue=$('#cc').combobox('getText');
+		       	doSearch();
+		      }
+
+			});
+		});
+	</script>
+</body>
+</html>
