@@ -9,6 +9,26 @@
 	<script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
+	<div class="userPlaceMain">
+		<ul class="nav">
+		    <li>
+		    	<a  id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='demo1.html'" >首页</a>
+		    </li>
+		    <li>
+		    	<a id="userPlaceId_2" href="javascript:;" onclick="javascript:window.location='demo1.html'" >形象展示</a>
+		    </li>
+		    <li>
+		    	<a  id="userPlaceId_3" href="javascript:;" >出勤</a>
+		    	<ol>
+					<li><a href="../tab/select.php?userid= <?php echo $_GET['userid'];?>">出勤记录</a></li>
+					<li><a href="../tab/daka_image.php?userid= <?php echo $_GET['userid'];?>">补打卡</a></li>
+					<li><a href="#">请假</a></li>
+					<li><a href="#">未知区域</a></li>
+
+				</ol>
+		    </li>
+		</ul>
+	</div>
 	<div style="margin:20px 0 10px 0;">
 		<table class="table" style="margin-bottom: 16px ">
 			<tr id="user_scope1">
@@ -102,7 +122,7 @@
 					//var imageFile = 'images/' + row.icon;
 					return '<span class="item-text">'+row.user_name+'</span>';
 				},
-			    // onLoadSuccess: function (row) {
+			    // onLoadonLoadSuccess: function (row) {
        //         // 默认选择第一项 res为后台返回的数据
 		     //        if (row) {
 		     //            $('#cc').combobox('setValue',row[0].user_id);

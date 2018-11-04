@@ -4,9 +4,10 @@ $urllogin = "login.html";
 $url = "demo1.html";
 
     
-	//$username = isset($_get['user_id']) ? intval($_POST['user_id']) : '';
-	$username = isset($_POST['username']) ? $_POST['username'] : '';
-	$pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
+	//$userid= isset($_get['userid']) ? intval($_POST['userid']) : '';
+	$username = isset($_REQUEST['username']) ? $_REQUEST['username'] : '';
+
+	$pwd = isset($_REQUEST['pwd']) ? $_REQUEST['pwd'] : '';
 	$result = array();	
 	$conn = new mysqli('127.0.0.1','root','','mytest');
 	if (!$conn) {
@@ -23,17 +24,14 @@ $url = "demo1.html";
 	//$result["total"] = $row[0];
 	$where = "username = '$username' and pwd = '$pwd'";
 
-	$sql1 = "select count(*) from login_table where ".$where;
+	$sql1 = "select count(*),userid from login_table where ".$where ." limit 1";
 	//echo $sql1;
 	$rs = $conn->query($sql1);
 	$row = $rs->fetch_array();
-    $result["total"] = $row[0];
 	
-	// while($row = $rs->fetch_assoc()){
-
-	// 	array_push($rows, $row);
-	// }
-	//$result["rows"] = $rows;
+    $result["total"] = $row[0];
+	$result["userid"] = $row[1];
+	
 	
 	echo json_encode($result);
 	//echo json_encode($result["total"]);

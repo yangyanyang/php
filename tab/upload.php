@@ -64,10 +64,10 @@
         die("连接失败: " . $conn->connect_error);
     }
     // 预处理及绑定
-    $where = "user_name = '$user_name'";
+    $where = "username = '$user_name'";
 
 	//echo "之后 : ".$user_name .$where;
-	$sql = "select user_id from testdaka where " . $where ."limit 1";
+	$sql = "select userid from login_table where " . $where ."limit 1";
 	$rs =  $conn->query($sql);
 	$row = $rs->fetch_array();
 	$user_id = $row[0];

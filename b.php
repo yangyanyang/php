@@ -1,11 +1,11 @@
 <?php
 header("Content-type:text/html;charset=utf-8");
-    //print_r($_REQUEST);
+    print_r($_REQUEST);
 	$page = isset($_POST['page']) ? intval($_POST['page']) : 1;
 	$rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
 	$offset = ($page-1)*$rows;
 	$user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : '';
-	$user_name = isset($_POST['user_name']) ? $_POST['user_name'] : '';
+	$user_name = isset($_REQUEST['user_name']) ? $_REQUEST['user_name'] : '';
 	//$user_id = 3;
 	$result = array();
 	
@@ -16,9 +16,11 @@ header("Content-type:text/html;charset=utf-8");
     //echo "连接成功";
 	//mysql_select_db('mytest',$conn);
 	$where = 'user_id>0 ';
+	echo $where;
 
 	if(!empty($user_name)){
 	$where .= "and user_name like '$user_name%'";
+	echo $where;
 	}
 	//echo "之后 : ".$user_name .$where;
 	$sql = "select count(*) from testdaka where " . $where;

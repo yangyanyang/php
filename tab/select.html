@@ -37,7 +37,7 @@
 								<option value="10">yangyanyang</option>
 						    </select>-->
 						    <input id="cc" style="width:100px" >
-		                    </input>
+		                    <label type="text" name="user_name" id="user_name" class="input" style="display: none;"><?php echo $_GET['user_name'];?></label>
 
 						</span>
 						<!--<span>Item ID:</span>
@@ -98,12 +98,16 @@
 	    toolbar: '#chaxun',
 	    onLoadSuccess:load_time
 	});
+	$('#control_assets_tab').datagrid(
+                'load',{
+                    user_name: $('#user_name').html().trim()
+            });
 	var textValue = ''
 	function doSearch(){
 			$('#control_assets_tab').datagrid(
 				'load',{
 					user_id: $('#cc').combobox('getValue'),
-					user_name: $('#cc').combobox('getText'),
+					// user_name: $('#cc').combobox('getText'),
 					user_time1:$('#user_time1').datetimebox('getValue'),
 					user_time2:$('#user_time2').datetimebox('getValue')
 			});

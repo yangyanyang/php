@@ -5,84 +5,19 @@
 	<title>demo1</title>
 	<script src="echarts.js"></script>
 	<script src="jquery-3.3.1.min.js"></script>
-	<style type="text/css" media="screen">
-	    *{margin:0;padding:0;}
-		.userPlaceMain 
-		{
-		    clear: both;
-		    width:100%;
-		    height: 50px;
-		    line-height: 50px;
-		    background: #099ecc;
-		    padding: 0 20px;
-		    color: White;
-		    -moz-box-shadow: 5px 5px 10px #B7B7B7;
-		    box-shadow: 5px 5px 10px #B7B7B7;
-		}
-		.userPlaceMain ul{
-			list-style:none;
-		}
-		.userPlaceMain ul li {
-		    float: left;
-		    margin-right: 10px;
-		}
-		.userPlaceMain ul li a 
-		{
-		    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
-		    color: White;
-		    display: inline-block;
-		    width: 100px;
-		    height: 100%;
-		    font-size: 15px;
-		    text-align: center;
-		    margin-right: 10px;
-		    text-decoration:none;
-		}
-		.userPlaceMain ul li a:hover
-		{
-			background: #0074A6;
-			color:White; 
-		}
-		.content
-		{
-			margin-top: 32px;
-
-		}
-		.active{
-			background: #0074A6;
-		}
-		.nav li ol{			
-		 	list-style:none;
-			width:100px;
-			height:0px;
-			overflow:hidden;
-			position:absolute;
-			background:#099ecc;			
-			z-index: 20000;
-		}
-		.nav li ol li{
-			z-index: 20000;
-		}
-		.nav li ol a{
-			text-align: left;
-			padding-left: 24px;
-		}
-		.nav li:hover ol{			
-		    height:220px;
-		    
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="nav.css">
+	
 
 </head>
 <body>
 	<?php 
-	  $user_name= $_GET['user_name'];
+	  $userid= $_GET['userid'];
 	?>
-	<body>
+	
 		<div class="userPlaceMain">
 		<ul class="nav">
 		    <li>
-		    	<a class="active" id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='demo1.html'" >首页</a>
+		    	<a  id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='demo11.php'" >首页</a>
 		    </li>
 		    <li>
 		    	<a id="userPlaceId_2" href="javascript:;" onclick="javascript:window.location='demo1.html'" >形象展示</a>
@@ -90,8 +25,8 @@
 		    <li>
 		    	<a  id="userPlaceId_3" href="javascript:;" >出勤</a>
 		    	<ol>
-					<li><a href="../tab/select.html">出勤记录</a></li>
-					<li><a href="../tab/daka_image.php?user_name= <?php echo $_GET['user_name'];?>">补打卡</a></li>
+					<li><a href="../tab/select.php?userid= <?php echo $_GET['userid'];?>">出勤记录</a></li>
+					<li><a href="../tab/daka_image.php?userid= <?php echo $_GET['userid'];?>">补打卡</a></li>
 					<li><a href="#">请假</a></li>
 					<li><a href="#">未知区域</a></li>
 
@@ -108,7 +43,7 @@
 	    <div id="container" style=" width:600px;height:400px;float: left"></div>
 	</div>
 	    
-	</body>
+
 	<script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         //var data="";

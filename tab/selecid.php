@@ -3,7 +3,7 @@ header("Content-type:text/html;charset=utf-8");
 
 	$result = array();
 	
-	$conn = new mysqli('127.0.0.1','root','','mytest');
+	$conn = new mysqli('127.0.0.1','root','','mdb');
 	if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 	}
@@ -13,7 +13,7 @@ header("Content-type:text/html;charset=utf-8");
 	//$row = $rs->fetch_array();
 	//$result["total"] = $row[0];
 	
-	$sql1 = "select user_id,user_name from testdaka  group by user_name order by user_id";
+	$sql1 = "select USERID,Name from userinfo  group by Name order by USERID";
 	$rs = $conn->query($sql1);
     
 	$rows = array();
