@@ -135,14 +135,15 @@
 			        pwd: $("#pwd").val()
 			    },
 		        function(data,status){
-		        	alert(data);		        
+		        	//alert(data);		        
 			        data1=JSON.parse(data);
-			        alert(data1.userid);
-			        if(data1["total"]>0){
+			        //alert(data1.userid);
+			        if(data1["userid"] !=""){
 			        	var userid = data1["userid"];
 			        	alert("登录成功");
 
-			        	window.location.href = "../nav/demo11.php?userid=" +userid;
+			        	// window.location.href = "../nav/demo11.php?userid=" +userid;
+			        	window.location.href = "../nav/demo11.php";
 			        }
 			        else{
 			        	alert("用户名或者密码错误");

@@ -1,5 +1,6 @@
 <?php
 header("Content-type:text/html;charset=utf-8");
+session_start();
 $urllogin = "login.html";
 $url = "demo1.html";
 
@@ -22,24 +23,26 @@ $url = "demo1.html";
 	//$rs =  $conn->query($sql);
 	//$row = $rs->fetch_array();
 	//$result["total"] = $row[0];
-	$where = "username = '$username' and pwd = '$pwd'";
+	$where = "a.username = '$username' and a.pwd = '$pwd'";
 
-	$sql1 = "select count(*),userid from login_table where ".$where ." limit 1";
+	$sql1 = "select count(*),a.userid,b.role from login_table as a join role_table as b on a.username=b.username and ".$where ." limit 1";
 	//echo $sql1;
 	$rs = $conn->query($sql1);
 	$row = $rs->fetch_array();
 	
     $result["total"] = $row[0];
 	$result["userid"] = $row[1];
+	$result["role"] = $row[2];
+	$_SESSION["userid"] = $result["userid"];
+	$_SESSION["role"] = $result["role"];
 	
-	
-	echo json_encode($result);
+	//echo json_encode($_SESSION);
+	//echo json_encode($result);
 	//echo json_encode($result["total"]);
 
 
 	if($result["total"]>0){
-		//echo "aaa";
-		//header("Location:$url");
+		echo json_encode($_SESSION);
 	}
 	else{
 		

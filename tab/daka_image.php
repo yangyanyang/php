@@ -42,7 +42,20 @@
 
 </head>
 <body>
-    <div class="userPlaceMain">
+    <?php 
+      //$userid= $_GET['userid'];
+      session_start(); //开启session   
+      if(empty($_SESSION["userid"]))  //判断session是否为空
+      {
+      　　header("location:login.html"); //空的话就返回登录页面
+      }
+      else{
+        //echo json_encode($_SESSION["userid"]);
+        $userid = $_SESSION["userid"];
+      }
+      
+    ?>
+    <!-- <div class="userPlaceMain">
         <ul class="nav">
             <li>
                 <a  id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='../nav/demo11.php?userid= <?php echo $_GET['userid'];?>'" >首页</a>
@@ -61,6 +74,26 @@
                     </ol>
             </li>
         </ul>
+    </div> -->
+    <div class="userPlaceMain">
+        <ul class="nav">
+            <li>
+                <a  id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='../nav/demo11.php'" >首页</a>
+            </li>
+            <li>
+                <a id="userPlaceId_2" href="javascript:;" onclick="javascript:window.location='../nav/demo11.php'" >形象展示</a>
+            </li>
+            <li>
+                <a  class="active" id="userPlaceId_3" href="javascript:;" >出勤</a>
+                <ol>
+                    <li><a href="../tab/select.php">出勤记录</a></li>
+                    <li><a href="../tab/daka_image.php">补打卡</a></li>
+                    <li><a href="#">请假</a></li>
+                    <li><a href="#">未知区域</a></li>
+
+                </ol>
+            </li>
+        </ul>
     </div>
 	<div id="win_box" style="display:none;">
 	    <div id="update_file_win" class="easyui-window" title="补打卡申请" data-options="modal:true,closed:true,iconCls:'icon-save',minimizable:false,maximizable:false,collapsible:false
@@ -75,7 +108,7 @@
                             <td >
                                 <span >
                                     <label type="text" name="user_name" id="user_name" class="input" ></label>
-                                    <label type="text" name="userid" id="userid" class="input" style="display: none;" ><?php echo $_GET['userid'];?></label>
+                                    <label type="text" name="userid" id="userid" class="input" style="display: none;" ><?php echo $_SESSION['userid'];?></label>
                                         <br>
                                     <span class="defined_error"></span>
                                 </span>
@@ -104,7 +137,7 @@
 						</tr>
                     </table>
                     </div>
-                    <input type="hidden" name="update_id" id="update_id" value="<?php echo $_GET['userid'];?>">
+                    <input type="hidden" name="update_id" id="update_id" value="<?php echo $_SESSION['userid'];?>">
                     </form>
                 </div>
                 <div data-options="region:'south',border:false" style="height:40px;text-align:right;padding:5px;border-top:1px solid #CCC;">
@@ -156,7 +189,7 @@
                     hidden:true
                 },
                 {
-                    field: 'user_name',
+                    field: 'username',
                     title: '姓名',
                     width: '30%'
                 },
@@ -197,8 +230,8 @@
         $('#detail_budaka').datagrid({
             onLoadSuccess: function(data){
                 //var data1 = JSON.parse(data);
-                //console.log(data["group"]["0"]["user_name"]);
-                $('#user_name').html(data["group"]["0"]["user_name"]);
+                console.log(data["group"]["0"]["username"]);
+                $('#user_name').html(data["group"]["0"]["username"]);
                 $('.image-popup-vertical-fit').magnificPopup({
                 type: 'image',
                 closeOnContentClick: true,

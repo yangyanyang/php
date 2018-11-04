@@ -10,7 +10,20 @@
 		<link rel="stylesheet" type="text/css" href="../nav/nav.css">
 	</head>
 	<body>
-		<div class="userPlaceMain">
+		<?php 
+		  //$userid= $_GET['userid'];
+		  session_start(); //开启session   
+		  if(empty($_SESSION["userid"]))
+		  {
+		  	header("location:../nav/login.html"); //空的话就返回登录页面
+		  }
+		  else{
+		  	//echo json_encode($_SESSION["userid"]);
+		  	$userid = $_SESSION["userid"];
+		  }
+		  
+		?>
+		<!-- <div class="userPlaceMain">
 			<ul class="nav">
 			    <li>
 			    	<a  id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='../nav/demo11.php?userid= <?php echo $_GET['userid'];?>'" >首页</a>
@@ -23,6 +36,26 @@
 			    	<ol>
 						<li><a href="../tab/select.php?userid= <?php echo $_GET['userid'];?>">出勤记录</a></li>
 						<li><a href="../tab/daka_image.php?userid= <?php echo $_GET['userid'];?>">补打卡</a></li>
+						<li><a href="#">请假</a></li>
+						<li><a href="#">未知区域</a></li>
+
+					</ol>
+			    </li>
+			</ul>
+		</div> -->
+		<div class="userPlaceMain">
+			<ul class="nav">
+			    <li>
+			    	<a  id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='../nav/demo11.php'" >首页</a>
+			    </li>
+			    <li>
+			    	<a id="userPlaceId_2" href="javascript:;" onclick="javascript:window.location='../nav/demo11.php'" >形象展示</a>
+			    </li>
+			    <li>
+			    	<a  class="active" id="userPlaceId_3" href="javascript:;" >出勤</a>
+			    	<ol>
+						<li><a href="../tab/select.php">出勤记录</a></li>
+						<li><a href="../tab/daka_image.php">补打卡</a></li>
 						<li><a href="#">请假</a></li>
 						<li><a href="#">未知区域</a></li>
 
@@ -58,7 +91,8 @@
 									<option value="10">yangyanyang</option>
 							    </select>-->
 							    <input id="cc" style="width:100px" >
-			                    <label type="text" name="userid" id="userid" class="input" style="display: none;"><?php echo $_GET['userid'];?></label>
+			                    <!-- <label type="text" name="userid" id="userid" class="input" style="display: none;"><?php echo $_GET['userid'];?></label> -->
+			                    <label type="text" name="userid" id="userid" class="input" style="display: none;"><?php echo $userid;?></label>
 
 							</span>
 							<!--<span>Item ID:</span>

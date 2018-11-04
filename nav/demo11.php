@@ -11,7 +11,18 @@
 </head>
 <body>
 	<?php 
-	  $userid= $_GET['userid'];
+	  //$userid= $_GET['userid'];
+	  session_start(); //开启session   
+	  if(empty($_SESSION["userid"]))  //判断session是否为空
+	  {
+		  	header("location:../nav/login.html"); //空的话就返回登录页面
+	  }
+	  else{
+	  	//echo json_encode($_SESSION["userid"]);
+	  	$userid = $_SESSION["userid"];
+	  	$role = $_SESSION["role"];
+	  }
+	  
 	?>
 	
 		<div class="userPlaceMain">
@@ -20,17 +31,25 @@
 		    	<a  id="userPlaceId_1" href="javascript:;" onclick="javascript:window.location='demo11.php'" >首页</a>
 		    </li>
 		    <li>
-		    	<a id="userPlaceId_2" href="javascript:;" onclick="javascript:window.location='demo1.html'" >形象展示</a>
+		    	<a id="userPlaceId_2" href="javascript:;" onclick="javascript:window.location='demo11.php'" >形象展示</a>
 		    </li>
 		    <li>
 		    	<a  id="userPlaceId_3" href="javascript:;" >出勤</a>
 		    	<ol>
-					<li><a href="../tab/select.php?userid= <?php echo $_GET['userid'];?>">出勤记录</a></li>
-					<li><a href="../tab/daka_image.php?userid= <?php echo $_GET['userid'];?>">补打卡</a></li>
+					<!-- <li><a href="../tab/select.php?userid= <?php echo $_GET['userid'];?>">出勤记录</a></li>
+					<li><a href="../tab/daka_image.php?userid= <?php echo $_GET['userid'];?>">补打卡</a></li> -->
+					<li><a href="../tab/select.php">出勤记录</a></li>
+					<li><a href="../tab/daka_image.php">补打卡</a></li>
 					<li><a href="#">请假</a></li>
 					<li><a href="#">未知区域</a></li>
 
 				</ol>
+		    </li>
+		    <li style="float: right;margin:8px 30px 0 0">
+		    	<button id="logout" onclick="logoutfunction()">
+		    		<img src="../images/logout.png" alt="注销" style="width: 30px;height: 30px">
+		    	</button>
+		    	
 		    </li>
 		</ul>
 	</div>
@@ -45,6 +64,9 @@
 	    
 
 	<script type="text/javascript">
+		function logoutfunction(){
+			window.location.href = "../nav/login.html";
+		}
         // 基于准备好的dom，初始化echarts实例
         //var data="";
         //var JsonObjs1 = "";

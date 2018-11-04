@@ -26,10 +26,10 @@ header("Content-type:text/html;charset=utf-8");
 	//print_r($rs);
 	$result["total"] = $row[0];
 	$result["page"] = ["total"=>$row[0]];
-	$sql1 = "select uid,user_id,user_name,user_time,image_url,uid from testbudaka where ". $where ." limit $offset,$rows";	
+	$sql1 = "select a.uid,b.userid,b.username,a.user_time,a.image_url from testbudaka as a join login_table as b  on a.user_id=b.userid and ". $where ." limit $offset,$rows";	
 	$rs = $conn->query($sql1);
 	//$rs = mysql_query("select * from testdaka limit $offset,$rows");
-    
+    //echo $sql1;
 	$rows = array();
 	while($row = $rs->fetch_assoc()){
 
