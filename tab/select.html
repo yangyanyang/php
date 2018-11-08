@@ -113,64 +113,19 @@
 			});
 	}
 
-	$(function(){
+	
 		$('#cc').combobox({
 			url:"selecid.php",
-		    valueField:"user_id",
-		    textField:"user_name",
+		    valueField:"USERID",
+		    textField:"Name",
 		    prompt: '请选择姓名',
 			formatter:function(row){
 				//var imageFile = 'images/' + row.icon;
-				return '<span class="item-text">'+row.user_name+'</span>';
+				return '<span class="item-text">'+row.Name+'</span>';
 			},
-			// onBeforeLoad: function(data){
-			// 	console.log("beforeload");
-			// 	data.unshift({'key':'','value':'全部'});   //unshift方法添加到第一行，push方法添加到末尾
-			// 	$('#cc').combobox({            
-			// 		data:data,        
-			// 		valueField:'key',        
-			// 		textField:'value', 
-			// 		editable:false //不可编辑
-			// 	}); 
-			// },
 			
-			// loadFilter:function(data){
-	  //          var obj={};
-	  //          obj.id='';
-	  //          obj.text='aaa';
-	  //          data.splice(0,0,obj);   //在数组0位置插入obj,不删除原来的元素
-	  //          return data;
-	 
-	  //       },
-	 
-
-		   //  onLoadSuccess: function (row) {
-     //       // 默认选择第一项 res为后台返回的数据
-	    //         if (row) {
-	    //             //$('#cc').combobox('setValue',row[0].user_id);
-	    //             row.unshift({'key':'','value':'全部'}); 
-	    //             //$('#cc').combobox('loadData',row);
-	    //             $('#cc').combobox({            
-					// 	data:row,        
-					// 	valueField:'key',        
-					// 	textField:'value', 
-					// 	editable:false //不可编辑
-					// }); 
-	    //             //$('#cc').combobox('setValue',row[0].user_id);
-
-	    //             }
-
-	    //     },
-
-			// onSelect:function(){
-		 //        //可以在此处写点击时一些逻辑
-		 //        //获取被选中的value值(不在这方法中同让使用)
-		 //       	//textValue=$('#cc').combobox('getText');
-		 //       	doSearch();
-		 //     }
-
 		});
-	});
+	
 	$('#cc').combobox({        
         loadFilter:function(data){            
 			var obj={};

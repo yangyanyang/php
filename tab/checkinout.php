@@ -28,7 +28,7 @@ header("Content-type:text/html;charset=utf-8");
 	// $where1 = "user_id>0 and user_time >= '$start_time' and user_time <= '$end_time'";
 	// $where2 = "user_id>0 and first >= '$start_time' and end <= '$end_time'";
 
-	if(!empty($userid) ){
+	if(!empty($userid) && $userid !="27" ){
 		$where .=" and a.USERID = '$userid'";
 		$where2 .=" and USERID = '$userid'";
 	}

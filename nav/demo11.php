@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>demo1</title>
+	<title>首页</title>
 	<script src="echarts.js"></script>
 	<script src="jquery-3.3.1.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="nav.css">
@@ -40,15 +40,15 @@
 					<li><a href="../tab/daka_image.php?userid= <?php echo $_GET['userid'];?>">补打卡</a></li> -->
 					<li><a href="../tab/select.php">出勤记录</a></li>
 					<li><a href="../tab/daka_image.php">补打卡</a></li>
-					<li><a href="#">请假</a></li>
+					<li><a href="../tab/leave.php">请假</a></li>
 					<li><a href="#">未知区域</a></li>
 
 				</ol>
 		    </li>
-		    <li style="float: right;margin:8px 30px 0 0">
-		    	<button id="logout" onclick="logoutfunction()">
-		    		<img src="../images/logout.png" alt="注销" style="width: 30px;height: 30px">
-		    	</button>
+		    <li style="float: right;margin:0px 30px 0 0">
+		    	<a id="logout" onclick="logoutfunction()">
+		    		<img src="../images/logout.ico" alt="注销" style="width: 30px;height: 30px;margin-top: 0px;position: relative; top: 8px;">
+		    	</a>
 		    	
 		    </li>
 		</ul>

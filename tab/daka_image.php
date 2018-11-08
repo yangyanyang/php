@@ -38,6 +38,9 @@
         .mfp-no-margins .mfp-container {
             padding: 0;
         }
+        body {
+            font: inherit;
+        }
     </style>
 
 </head>
@@ -52,6 +55,9 @@
       else{
         //echo json_encode($_SESSION["userid"]);
         $userid = $_SESSION["userid"];
+        if(!empty($_SESSION["username"])){
+            $username = $_SESSION["username"];
+        }
       }
       
     ?>
@@ -93,6 +99,11 @@
 
                 </ol>
             </li>
+            <li style="float: right;margin:0px 30px 0 0">
+                <a id="logout" onclick="logoutfunction()">
+                    <img src="../images/logout.ico" alt="注销" style="width: 30px;height: 30px;margin-top: 0px;position: relative; top: 8px;">
+                </a>                
+            </li>
         </ul>
     </div>
 	<div id="win_box" style="display:none;">
@@ -107,7 +118,7 @@
                             <td style="width: 80px; margin-right: 2px;padding-right: 2px;text-align:right;">姓名：</td>
                             <td >
                                 <span >
-                                    <label type="text" name="user_name" id="user_name" class="input" ></label>
+                                    <label type="text" name="user_name" id="user_name" class="input" ><?php echo $username ?></label>
                                     <label type="text" name="userid" id="userid" class="input" style="display: none;" ><?php echo $_SESSION['userid'];?></label>
                                         <br>
                                     <span class="defined_error"></span>

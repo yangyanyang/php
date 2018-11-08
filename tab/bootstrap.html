@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 水平表单</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="leavemain" style="margin-top: 40px;margin-left: 32px">
+		<div class='leavecontent'>
+			<form class="form-horizontal" role="form" action="leave_submit.php" method="post">
+				<div class="form-group">
+					<label for="firstname" class="col-sm-1 control-label">姓名</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="firstname" 
+							   placeholder="请输入姓名">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="lastname" class="col-sm-1 control-label">请假理由</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="lastname" 
+							   placeholder="请输入请假理由">
+					</div>
+				</div>
+				<div class="form-group">					
+					<label for="lastname" class="col-sm-1 control-label">开始时间：</label>
+					<span class="col-sm-2">
+                    	<input class="easyui-datetimebox form-control" id="user_time1" name="user_time1" data-options="required:true, formatter:formatter,parser:parser " style="width:150px">                        
+	                </span>
+	                <label for="lastname" class="col-sm-1 control-label">开始时间：</label>
+	                <span class="col-sm-2">
+                    	<input class="easyui-datetimebox form-control" id="user_time2" name="user_time2" data-options="required:true, formatter:formatter,parser:parser " style="width:150px">
+                    </span>	                
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-3">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox"> 请记住我
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="lastname" class="col-sm-1 control-label">请假原因</label>
+					<div class="col-sm-2">
+						<label class="radio-inline">
+						       <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="option1" checked> 事假
+					    </label>
+					    <label class="radio-inline">
+					       <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option2"> 年假
+					    </label>
+					    <label class="radio-inline">
+					       <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option2"> 病假
+					    </label>
+					    <label class="radio-inline">
+					       <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option2"> 调休
+					    </label>
+					</div>
+										
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-3">
+						<button type="submit" class="btn btn-default">登录</button>
+					</div>
+				</div>
+			</form>
+			</div>
+			
+
+</body>
+</html>

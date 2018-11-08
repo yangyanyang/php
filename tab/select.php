@@ -20,6 +20,7 @@
 		  else{
 		  	//echo json_encode($_SESSION["userid"]);
 		  	$userid = $_SESSION["userid"];
+		  	$role = $_SESSION["role"];
 		  }
 		  
 		?>
@@ -61,6 +62,11 @@
 
 					</ol>
 			    </li>
+			    <li style="float: right;margin:0px 30px 0 0">
+			    	<a id="logout" onclick="logoutfunction()">
+			    		<img src="../images/logout.ico" alt="注销" style="width: 30px;height: 30px;margin-top: 0px;position: relative; top: 8px;">
+			    	</a>		    	
+		    	</li>
 			</ul>
 		</div>
 		<div style="margin:24px 24px 8px 0;">
@@ -82,8 +88,9 @@
 	                            <span class="defined_error"></span>
 	                        </span>
 	                    </td>
-	                    <td class="label_1" style="padding-right: 8px;">姓名</td>
-						<td class="css_content">
+
+	                    <td id="tablename1" class="label_1" style="padding-right: 8px;">姓名</td>
+						<td id="tablename2" class="css_content">
 			                <span class="select_margin">
 							    <!--<select name="recog_scope_name" id="user_id" class="select long" style="width:200px;">
 								    <option value="1">zhouruihong</option>
@@ -93,13 +100,16 @@
 							    <input id="cc" style="width:100px" >
 			                    <!-- <label type="text" name="userid" id="userid" class="input" style="display: none;"><?php echo $_GET['userid'];?></label> -->
 			                    <label type="text" name="userid" id="userid" class="input" style="display: none;"><?php echo $userid;?></label>
+			                    <label type="text" name="role" id="role" class="input" style="display: none;"><?php echo $role;?></label>
 
 							</span>
 							<!--<span>Item ID:</span>
 				               <input id="user_id" style="line-height:26px;border:1px solid #ccc"> -->
 
 						</td>
-						<td>
+		                    	
+	                    </div>
+						<td style="position: absolute;right: 16px; ">
 							<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">查询</a>
 						</td>
 			        </tr>
@@ -171,18 +181,6 @@
 		                    first:firstDay,
 		                    end:formatter(etime)
 		            });
-			// var textValue = '';
-			
-			//console.log(etime);
-			// $('#user_time1').datetimebox('setValue', firstDay+" 06:00:00");
-			// console.log(firstDay+" 06:00:00");
-			// $('#user_time2').datetimebox('setValue', etime);
-		    //$('#cc').combobox('setValue',$('#user_name').html().trim());
-			// $('#cc').combobox(
-			// 	'load',{
-			// 		//user_time1:$('#user_time1').datetimebox('getValue'),			
-			// 	    textField:$('#user_name1').html().trim()
-			// 	});
 			function doSearch(){
 					$('#control_assets_tab').datagrid(
 						'load',{
@@ -193,7 +191,27 @@
 					});
 			}
 
-			
+			var role = $('#role').html().trim();
+			// console.log(role);
+			//alert("role"+role);
+
+			if(role=="admin"){
+				//alert("admin"+role);
+				$('#cc').combobox({
+					url:"selecid.php",
+				    valueField:"USERID",
+				    textField:"Name",
+				    //readonly:"false",
+				    prompt: '请选择姓名',
+					formatter:function(row){
+						//var imageFile = 'images/' + row.icon;
+						return '<span class="item-text">'+row.Name+'</span>';
+					},
+					
+				});				
+			}			
+			else{
+				//alert("user"+role);
 				$('#cc').combobox({
 					url:"selecid.php",
 				    valueField:"USERID",
@@ -204,60 +222,17 @@
 						//var imageFile = 'images/' + row.icon;
 						return '<span class="item-text">'+row.user_name+'</span>';
 					},
-					// onBeforeLoad: function(data){
-					// 	console.log("beforeload");
-					// 	data.unshift({'key':'','value':'全部'});   //unshift方法添加到第一行，push方法添加到末尾
-					// 	$('#cc').combobox({            
-					// 		data:data,        
-					// 		valueField:'key',        
-					// 		textField:'value', 
-					// 		editable:false //不可编辑
-					// 	}); 
-					// },
-					
-					// loadFilter:function(data){
-			  //          var obj={};
-			  //          obj.id='';
-			  //          obj.text='aaa';
-			  //          data.splice(0,0,obj);   //在数组0位置插入obj,不删除原来的元素
-			  //          return data;
-			 
-			  //       },
-			 
+				});				
+							
+			 }
 
-				   //  onLoadSuccess: function (row) {
-		     //       // 默认选择第一项 res为后台返回的数据
-			    //         if (row) {
-			    //             //$('#cc').combobox('setValue',row[0].user_id);
-			    //             row.unshift({'key':'','value':'全部'}); 
-			    //             //$('#cc').combobox('loadData',row);
-			    //             $('#cc').combobox({            
-							// 	data:row,        
-							// 	valueField:'key',        
-							// 	textField:'value', 
-							// 	editable:false //不可编辑
-							// }); 
-			    //             //$('#cc').combobox('setValue',row[0].user_id);
-
-			    //             }
-
-			    //     },
-
-					onSelect:function(){
-				        //可以在此处写点击时一些逻辑
-				        //获取被选中的value值(不在这方法中同让使用)
-				        
-				       	// var textValue=$('#cc').combobox('getText');
-				       	// $("#user_name1").html(textValue);
-				       	// doSearch();
-				     }
-
-				});
+			
+				
 				$('#cc').combobox({        
 		        loadFilter:function(data){            
 					var obj={};
-			       	obj.user_id='';
-			      	obj.user_name='-请选择-'
+			       	obj.USERID='';
+			      	obj.Name='-请选择-'
 			       	data.splice(0,0,obj);
 			       	//在数组0位置插入obj,不删除原来的元素
 			       	//console.log('数组：',data); 
@@ -271,18 +246,32 @@
 		    	var month = etime.getMonth()+1;
 		    	var firstDay = month + "/" + "01/" + year;
 				//console.log(etime);
-				$('#user_time1').datetimebox('setValue', firstDay+" 06:00:00");
+				//$('#user_time1').datetimebox('setValue', firstDay+" 06:00:00");
 				//console.log(firstDay+" 06:00:00");
+				//$('#user_time2').datetimebox('setValue', etime);
+
+				//$('#cc').combobox('setValue',$('#userid').html().trim());
+		    }
+		    $(function(){
+		    	var role = $('#role').html().trim();
+		    	var userid = $('#userid').html().trim();
+				var etime = new Date();
+		    	var year = etime.getFullYear();
+		    	var month = etime.getMonth()+1;
+		    	var firstDay = month + "/" + "01/" + year;
+				$('#user_time1').datetimebox('setValue', firstDay+" 06:00:00");
 				$('#user_time2').datetimebox('setValue', etime);
 				$('#cc').combobox('setValue',$('#userid').html().trim());
-		    }
-		  //   $(function(){
-				// var etime1 = new Date();
-				// //console.log(etime);
-				// $('#user_time1').datetimebox('setValue', "08/01/2017 09:00:00");
-				// $('#user_time2').datetimebox('setValue', etime1);
+				if(role == "user"){
+					$('#tablename1').css('display','none');
+					$('#tablename2').css('display','none');
+				}
+				else if(userid == "27"){
+					$('#cc').combobox('setValue',"");
+				}
 
-		  //   });
+
+		    });
 
 			function formatter(date){
 				//console.log(date);

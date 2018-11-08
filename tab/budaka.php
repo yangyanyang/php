@@ -1,6 +1,7 @@
 <?php
 header("Content-type:text/html;charset=utf-8");
     //print_r($_REQUEST);
+    session_start();
 	$page = isset($_POST['page']) ? intval($_POST['page']) : 1;
 	$rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
 	$offset = ($page-1)*$rows;
@@ -16,17 +17,19 @@ header("Content-type:text/html;charset=utf-8");
     //echo "连接成功";
 	
 	
-	$where = "user_id = '$user_id'";
+	$where1 = "user_id = '$user_id'";
+	$where2 = "a.user_id = '$user_id'";
+
 
 	//echo "之后 : ".$user_name .$where;
-	$sql = "select count(*) from testbudaka where " . $where;
+	$sql = "select count(*) from testbudaka where " . $where1;
 	//echo $sql;
 	$rs =  $conn->query($sql);
 	$row = $rs->fetch_array();
 	//print_r($rs);
 	$result["total"] = $row[0];
 	$result["page"] = ["total"=>$row[0]];
-	$sql1 = "select a.uid,b.userid,b.username,a.user_time,a.image_url from testbudaka as a join login_table as b  on a.user_id=b.userid and ". $where ." limit $offset,$rows";	
+	$sql1 = "select a.uid,b.userid,b.username,a.user_time,a.image_url from testbudaka as a  join login_table as b  on b.userid="."'$user_id'" ." and ". $where2 ." limit $offset,$rows";	
 	$rs = $conn->query($sql1);
 	//$rs = mysql_query("select * from testdaka limit $offset,$rows");
     //echo $sql1;
@@ -38,4 +41,12 @@ header("Content-type:text/html;charset=utf-8");
 	$result["group"] = $rows;
 	
 	echo json_encode($result);
+
+	$sql = "select username from login_table where userid= " ."'$user_id'";
+	//echo $sql;
+	$rs = $conn->query($sql);
+	$row = $rs->fetch_array();
+	$_SESSION["username"] = $row[0];
+	//echo json_encode($_SESSION["username"]);
+
 ?>
