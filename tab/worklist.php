@@ -4,7 +4,8 @@ header("Content-type:text/html;charset=utf-8");
 function workList($month,$year){
 	// for()
 	$mydays = "";
-	$days = cal_days_in_month(CAL_GREGORIAN,$month,$year);
+	$days = cal_days_in_month(CAL_GREGORIAN,$month,$year); //返回一个月多少天
+
 	//echo "day $days <br>";
 	for($x=1; $x<=$days; $x++){
 		if($x == $days){
@@ -47,50 +48,97 @@ function workList($month,$year){
 	//var_dump($result);
 
 	$workday = array();
+	$holiday = array();
+	$allday = array();
+	if(!empty($result)){
 	foreach($result as $day=>$index){
 
-    	//echo $day."的工作标记".$index."<br>";
+    	array_push($allday,$day);
     	if($index == 0)
     	{
-             array_push($workday,$day);
+            array_push($workday,$day);
+    	}
+    	else{
+    		array_push($holiday,$day);
     	}
 
-	};
+	}
+}
+	$work_hol = array('workday'=> $workday,'holiday'=>$holiday,'allday' => $allday);
+
 	// var_dump($workday);
-	return $workday;
+	return $work_hol;
 
 }
 
 $month = 10;
 $year = 2018;
 
+function holiday($day){
+	// echo "$day <br>";
+    $year = substr($day,0,4);
+    $month = substr($day,4,2); 
+    // echo "$year <br> $month";
+	$holiday = workList($month,$year)["holiday"];
+    //echo json_encode($holiday);
+    foreach ($holiday as $value) {
+    	if($day == $value){
+    		//echo "holiday <br>";
+    		return true;
+    		
+    	}
+    }
+    return false;
+
+}
+// if( holiday($month,$year,"20181007")){
+// 	echo "holiday <br>";
+
+// }
+// if(!holiday("20181027")){
+// echo "notholiday <br>";
+// }
+// else{
+// 	echo "holiday <br>";
+// }
+
 
 function chuqin_day_num($uid){
 		$chuqin_day_num = 0;
 		$chidao_day_num = 0;
 		$chidao_day_time_list = array();  //"2018-10-10 09:55:00"
+		$chidao_day_time_list_tmp = array();
+		$chuqin_day_time_list = array(); //"2018-10-10 09:55:00 2018-10-10 19:55:00 "
+		$chuqin_day_time_list_tmp = array();
 		$wanjiaban_work = 0;
 		$jiaban_work_day_list = array(); //2018-10-10
 		$jiaban_week = 0;
 		$jiaban_week_time = 0;      //7h
 		$jiaban_week_time_list = array(); //"2018-10-10 09:55:00 2018-10-10 19:55:00 "
+		$jiaban_week_time_list_tmp = array(); //"2018-10-10 09:55:00 2018-10-10 19:55:00 "
 		$shangban_time = "09:15:00";
 		$xiaban_time = "18:00:00";
 		$wanjiaban_time = "20:30:00";
 		$chidao_time = "09:30:00";
 		$chuqin_least_time = "11:30:00";
 		$qingjia_time_list = array();  //"2018-10-10 09:55:00 2018-10-10 19:55:00 "
+		$qingjia_tmp = array();
 		$result = array();
 	    $month = 10;
 	    $year = 2018;
-	    $workday = workList($month,$year);
+	    $workday = workList($month,$year)["workday"];
+	    $holiday = workList($month,$year)["holiday"];
+	    $allday = workList($month,$year)["allday"];
+	    //$days = cal_days_in_month(CAL_GREGORIAN,$month,$year);
+	    // array_push($allmonthday,$workday);
+	    // array_push($allmonthday,$holiday);
+	    // echo json_encode($allday);
 		$conn = new mysqli('127.0.0.1','root','','mdb');
 		if (!$conn) {
 	    die("Connection failed: " . mysqli_connect_error());
 		}
 
-		foreach($workday as $value){
-
+		foreach($workday as $value){	    	
 	    	$day = $value;
 	    	//echo $day ."<br/>";
 	    	$sql = "select min(CHECKTIME) as first,max(CHECKTIME) as end from checkinout where date_format(CHECKTIME,'%Y%m%d')=" .$day ." and USERID = " .$uid;
@@ -101,38 +149,147 @@ function chuqin_day_num($uid){
 
 	    		array_push($rows, $row);
 	    	}
-	    	var_dump($rows);
+	    	//var_dump($rows);
 	    	$first=  strstr( $rows[0]["first"], ' ');
 	    	$end=  strstr( $rows[0]["end"], ' ');
-	    	//var_dump($rows);
-	    	if(dateBDate($first,$chuqin_least_time) && dateBDate($xiaban_time ,$end)) {
-	    		$chuqin_day_num++;
-	    		if(dateBDate($shangban_time, $first)&&dateBDate($first, $chidao_time)){
-	    			$chidao_day_num++;
-	    			array_push($chidao_day_time_list,$rows[0]["first"]);
-	    		}
-	    		elseif  (dateBDate($wanjiaban_time, $end)){
-	    			$wanjiaban_work++;
-	    			// $jiaban_work_day_list=array('first'=>$)
-	    			array_push($jiaban_work_day_list,$day);
-	    		}
-	    		elseif  (dateBDate($chidao_time,$first)){
-	    			echo "$first <br>";
-	    			$qingjia_time_list['first'] = $rows[0]["first"];
-	    			$qingjia_time_list['end'] = $rows[0]["end"];
-	    			// array_push($qingjia_time_list,$rows[0]["first"]);
-	    		}
-	    	}
-	    	else{
-	    		$qingjia_time_list['first'] = $rows[0]["first"];
-	    		$qingjia_time_list['end'] = $rows[0]["end"];
-	    	}
+	    	// var_dump($rows);
+	    	// if(!holiday($day)){
+		    	if( !empty($first)&& !empty($end) ){
+			    	if(dateBDate($wanjiaban_time ,$end)){
+		    			$wanjiaban_work++;
+		    			// $jiaban_work_day_list=array('first'=>$)
+		    			array_push($jiaban_work_day_list,$day);
+		    			if(dateBDate($first,$chuqin_least_time)){
+		    				$chuqin_day_num++;
+		    				$chuqin_day_time_list_tmp["day"] = $day;
+		    				$chuqin_day_time_list_tmp["first"] = $first;
+		    				$chuqin_day_time_list_tmp["end"] = $end;
+		    				array_push($chuqin_day_time_list,$chuqin_day_time_list_tmp);
+		    				if(dateBDate($shangban_time, $first)&&dateBDate($first, $chidao_time)){
+				    			$chidao_day_num++;
+				    			$chidao_day_time_list_tmp["day"] = $day;
+				    			$chidao_day_time_list_tmp["first"] = $first;
+				    			$chidao_day_time_list_tmp["end"] = $end;
+				    			array_push($chidao_day_time_list,$chidao_day_time_list_tmp);
+				    		}
+				    		elseif(dateBDate($chidao_time,$first)){
+				    			// echo "$first <br>";
+				    			$qingjia_tmp['day'] = $day;
+				    			$qingjia_tmp['first'] = $first;
+				    			$qingjia_tmp['end'] = $end;
+				    			array_push($qingjia_time_list,$qingjia_tmp);
+				    			
+				    		}
+		    			}
+		    			else{
+		    				$qingjia_tmp['day'] = $day;
+		    				$qingjia_tmp['first'] = $first;
+		    				$qingjia_tmp['end'] = $end;
+		    				array_push($qingjia_time_list,$qingjia_tmp);
+		    			}
+
+			    	}
+			    	elseif(dateBDate($xiaban_time,$end)){
+		                if(dateBDate($first,$chuqin_least_time)){
+		    				$chuqin_day_num++;
+		    				$chuqin_day_time_list_tmp["day"] = $day;
+		    				$chuqin_day_time_list_tmp["first"] = $first;
+		    				$chuqin_day_time_list_tmp["end"] = $end;
+		    				array_push($chuqin_day_time_list,$chuqin_day_time_list_tmp);
+		    				if(dateBDate($shangban_time, $first)&&dateBDate($first, $chidao_time)){
+				    			$chidao_day_num++;
+				    			$chidao_day_time_list_tmp["day"] = $day;
+				    			$chidao_day_time_list_tmp["first"] = $first;
+				    			$chidao_day_time_list_tmp["end"] = $end;
+				    			array_push($chidao_day_time_list,$chidao_day_time_list_tmp);
+				    		}
+				    		elseif(dateBDate($chidao_time,$first)){
+				    			echo "$first <br>";
+				    			$qingjia_tmp['day'] = $day;
+				    			$qingjia_tmp['first'] = $first;
+			    				$qingjia_tmp['end'] = $end;
+			    				array_push($qingjia_time_list,$qingjia_tmp);
+				    		}
+		    			}
+		    			else{
+		    				$qingjia_tmp['day'] = $day;
+		    				$qingjia_tmp['first'] = $first;
+		    				$qingjia_tmp['end'] = $end;
+		    				array_push($qingjia_time_list,$qingjia_tmp);
+		    			}
+
+			    	}
+			    	else{
+			    		$qingjia_tmp['day'] = $day;
+			    		$qingjia_tmp['first'] = $first;
+			    		$qingjia_tmp['end'] = $end;
+			    		array_push($qingjia_time_list,$qingjia_tmp);
+			    	}
+			    }
+			    else{
+			    	$first = empty($first)?'0':$first;
+			    	$end = empty($end)?'0':$end;
+			    	$qingjia_tmp['day'] = $day;
+			    	$qingjia_tmp['first'] = $first;
+			    	$qingjia_tmp['end'] = $end;
+			    	array_push($qingjia_time_list,$qingjia_tmp);
+			    }
+			}
+			foreach($holiday as $value){	    	
+		    	$day = $value;
+		    	//echo $day ."<br/>";
+		    	$sql = "select min(CHECKTIME) as first,max(CHECKTIME) as end from checkinout where date_format(CHECKTIME,'%Y%m%d')=" .$day ." and USERID = " .$uid;
+		    	$rs = $conn->query($sql);
+		    	$rows = array();
+		    	//echo $sql;
+		    	while($row = $rs->fetch_assoc()){
+
+		    		array_push($rows, $row);
+		    	}
+		    	//var_dump($rows);
+		    	$first=  strstr( $rows[0]["first"], ' ');
+		    	$end=  strstr( $rows[0]["end"], ' ');
+		    	$first = empty($first)?'0':$first;
+		    	$end = empty($end)?'0':$end;
+    			// $jiaban_week_time = $end - $first;
+    			$jiaban_week_time += floor((strtotime($end)-strtotime($first))%86400/3600);
+    			$jiaban_week_time1 = floor((strtotime($end)-strtotime($first))%86400/3600);
+    			// echo "jiaban_week_time $jiaban_week_time1   <br>";
+    			// echo "day:$day first:$first end:$end<br>";    			
+    			$jiaban_week_time_list_tmp['day'] = $day;
+    			$jiaban_week_time_list_tmp['first'] = $first;
+    			$jiaban_week_time_list_tmp['end'] = $end;
+    			$jiaban_week_time_list_tmp['jiaban_week_time'] = $jiaban_week_time1;
 
 
-		};
+    			array_push($jiaban_week_time_list,$jiaban_week_time_list_tmp);
+		    }
+			// }
+	  //   	else{
+	  //   		$first = empty($first)?'0':$first;
+		 //    	$end = empty($end)?'0':$end;
+   //  			// $jiaban_week_time = $end - $first;
+   //  			$jiaban_week_time += floor((strtotime($end)-strtotime($first))%86400/3600);
+   //  			$jiaban_week_time1 = floor((strtotime($end)-strtotime($first))%86400/3600);
+   //  			echo "jiaban_week_time $jiaban_week_time   <br>";
+   //  			echo "day:$day first:$first end:$end<br>";    			
+   //  			$jiaban_week_time_list_tmp['day'] = $day;
+   //  			$jiaban_week_time_list_tmp['first'] = $first;
+   //  			$jiaban_week_time_list_tmp['end'] = $end;
+   //  			$jiaban_week_time_list_tmp['jiaban_week_time'] = $jiaban_week_time1;
+
+
+   //  			array_push($jiaban_week_time_list,$jiaban_week_time_list_tmp);
+   //  			// $wanjiaban_work++;
+	  //   	} 		
+
+	    	// $conn->close();
+
+
+        $conn->close();
 		$result = array('chuqin_day_num' =>$chuqin_day_num ,'wanjiaban_work' =>$wanjiaban_work,
 		'chidao_day_num' =>$chidao_day_num, 'chidao_day_time_list'=>$chidao_day_time_list,
-		 'jiaban_work_day_list' => $jiaban_work_day_list,'qingjia_time_list'=> $qingjia_time_list );
+		 'jiaban_work_day_list' => $jiaban_work_day_list,'qingjia_time_list'=> $qingjia_time_list,'chuqin_day_time_list'=>$chuqin_day_time_list,'jiaban_week_time' => $jiaban_week_time,'jiaban_week_time_list' => $jiaban_week_time_list);
 		return $result;
 }
 
