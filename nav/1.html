@@ -4,57 +4,29 @@
 	<title>导航学习</title>
 	<meta charset="UTF-8">
 	<style type="text/css" media="screen">
-		.userPlaceMain 
-		{
-		    clear: both;
-		    width:100%;
-		    height: 50px;
-		    line-height: 50px;
-		    background: #099ecc;
-		    padding: 0 20px;
-		    color: White;
-		    -moz-box-shadow: 5px 5px 10px #B7B7B7;
-		    box-shadow: 5px 5px 10px #B7B7B7;
-		}
-		.userPlaceMain ul{
-			list-style:none;
-		}
-		.userPlaceMain ul li {
-		    float: left;
-		    margin-right: 10px;
-		}
-		.userPlaceMain ul li a 
-		{
-		    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
-		    color: White;
-		    display: inline-block;
-		    width: 100px;
-		    height: 100%;
-		    font-size: 15px;
-		    text-align: center;
-		    margin-right: 10px;
-		    text-decoration:none;
-		}
-		.userPlaceMain ul li a:hover
-		{
-			background: #0074A6;
-			color:White; 
-		}
+		
 	</style>
+	<script src="../tab/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="../tab/js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../tab/js/easyui/themes/icon.css">	
+	<script type="text/javascript" src="../tab/js/easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
-	<div class="userPlaceMain">
-		<ul>
-		    <li>
-		    	<a id="userPlaceId_1" href="demo1.html" class="userPlaceMainUlLiHover">首页</a>
-		    </li>
-		    <li>
-		    	<a id="userPlaceId_2" href="http://xunwn.com">形象展示</a>
-		    </li>
-		    <li>
-		    	<a id="userPlaceId_3" href="http://xunwn.com/photo/1010100">产品展示</a>
-		    </li>
-		</ul>
+	<div class="easyui-layout">
+		<div data-options="region:'north',border:false" class="layout-panel-north-height">
+		    <div class="hui-Panel" id="Panel-1">
+		        <div class="hui-Panel-header tab_bg" id="Header-1">
+		            <a href="javascript:;" class="nav-item active">{lang tree_ips_inner_assets_conf}</a>
+		        </div>
+		    </div>
+		</div>
+		<div data-options="region:'center',border:false,fit:true" class="easyui-panel">
+			<div class="contain" >
+				<div class="subcontain" id="chuqin">
+					
+				</div>
+			</div>
+		</div>
 	</div>
 
 

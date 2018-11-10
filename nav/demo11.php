@@ -77,6 +77,7 @@
 	        {
 	        	//JsonObjs1 = $.parseJSON(data)
 	        	//console.log(JsonObjs1);
+	        	console.log(JSON.stringify(data));
 	           //for in遍历php返回的json数据
 	            // for(var k in data)
 	            // {
@@ -92,7 +93,7 @@
 	            alert("1111");
 	        }
 	    });
-	    //console.log(data);
+	    
 
 	    function drawbar(data){
 	    	var myChart = echarts.init(document.getElementById('main'));

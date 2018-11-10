@@ -121,6 +121,7 @@ function chuqin_day_num($uid){
 		$wanjiaban_time = "20:30:00";
 		$chidao_time = "09:30:00";
 		$chuqin_least_time = "11:30:00";
+		$qingjia_day_num = 0;
 		$qingjia_time_list = array();  //"2018-10-10 09:55:00 2018-10-10 19:55:00 "
 		$qingjia_tmp = array();
 		$result = array();
@@ -173,7 +174,7 @@ function chuqin_day_num($uid){
 				    			array_push($chidao_day_time_list,$chidao_day_time_list_tmp);
 				    		}
 				    		elseif(dateBDate($chidao_time,$first)){
-				    			// echo "$first <br>";
+				    			$qingjia_day_num++;
 				    			$qingjia_tmp['day'] = $day;
 				    			$qingjia_tmp['first'] = $first;
 				    			$qingjia_tmp['end'] = $end;
@@ -182,6 +183,7 @@ function chuqin_day_num($uid){
 				    		}
 		    			}
 		    			else{
+		    				$qingjia_day_num++;
 		    				$qingjia_tmp['day'] = $day;
 		    				$qingjia_tmp['first'] = $first;
 		    				$qingjia_tmp['end'] = $end;
@@ -204,7 +206,8 @@ function chuqin_day_num($uid){
 				    			array_push($chidao_day_time_list,$chidao_day_time_list_tmp);
 				    		}
 				    		elseif(dateBDate($chidao_time,$first)){
-				    			echo "$first <br>";
+				    			// echo "$first <br>";
+				    			$qingjia_day_num++;
 				    			$qingjia_tmp['day'] = $day;
 				    			$qingjia_tmp['first'] = $first;
 			    				$qingjia_tmp['end'] = $end;
@@ -212,6 +215,7 @@ function chuqin_day_num($uid){
 				    		}
 		    			}
 		    			else{
+		    				$qingjia_day_num++;
 		    				$qingjia_tmp['day'] = $day;
 		    				$qingjia_tmp['first'] = $first;
 		    				$qingjia_tmp['end'] = $end;
@@ -220,6 +224,7 @@ function chuqin_day_num($uid){
 
 			    	}
 			    	else{
+			    		$qingjia_day_num++;
 			    		$qingjia_tmp['day'] = $day;
 			    		$qingjia_tmp['first'] = $first;
 			    		$qingjia_tmp['end'] = $end;
@@ -229,6 +234,7 @@ function chuqin_day_num($uid){
 			    else{
 			    	$first = empty($first)?'0':$first;
 			    	$end = empty($end)?'0':$end;
+			    	$qingjia_day_num++;
 			    	$qingjia_tmp['day'] = $day;
 			    	$qingjia_tmp['first'] = $first;
 			    	$qingjia_tmp['end'] = $end;
@@ -289,7 +295,7 @@ function chuqin_day_num($uid){
         $conn->close();
 		$result = array('chuqin_day_num' =>$chuqin_day_num ,'wanjiaban_work' =>$wanjiaban_work,
 		'chidao_day_num' =>$chidao_day_num, 'chidao_day_time_list'=>$chidao_day_time_list,
-		 'jiaban_work_day_list' => $jiaban_work_day_list,'qingjia_time_list'=> $qingjia_time_list,'chuqin_day_time_list'=>$chuqin_day_time_list,'jiaban_week_time' => $jiaban_week_time,'jiaban_week_time_list' => $jiaban_week_time_list);
+		 'jiaban_work_day_list' => $jiaban_work_day_list,'qingjia_day_num' => $qingjia_day_num,'qingjia_time_list'=> $qingjia_time_list,'chuqin_day_time_list'=>$chuqin_day_time_list,'jiaban_week_time' => $jiaban_week_time,'jiaban_week_time_list' => $jiaban_week_time_list);
 		return $result;
 }
 
