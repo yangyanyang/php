@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test2</title>
+	<script src="../tab/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="../tab/js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../tab/js/easyui/themes/icon.css">	
+	<script type="text/javascript" src="../tab/js/easyui/jquery.easyui.min.js"></script>
+    
+</head>
+<body >
+	<div class="easyui-layout" style="width: 1200px;height: 600px">
+		<div data-options="region:'north',border:false" class="nav-wrapper">
+		    <div class="nav-main" id="Panel-1">
+		        <div class="nav-item-wrapper" id="Header-1">
+		            <a href="javascript:;" class="nav-item active">aaa</a>
+		        </div>
+		    </div>
+		</div>
+		<div data-options="region:'center',border:false"  style="width: 1200px;height: 580px">	
+			<table id="hot_table">			
+			</table>
+				
+
+		</div>
+	</div>
+
+		<script>
+			var headers = [
+				{headerid:'1',headername:'unprotected_risk'},
+				{headerid:'2',headername:'processed_risk'}
+
+			];
+
+			$('#hot_table').datagrid({
+				width: 1200,
+				height: 560,
+	            url:'test2.php',            
+	            columns: [[
+	                /*{
+	                    field: 'ck',
+	                    checkbox: true,
+	                },*/
+	                {
+	                    field: 'log_time',
+	                    width: 150,
+	                    title: 'outburst_date',
+	                    sortable: false,
+	                    resizable:false,
+	                    fixed:true
+	                },
+	                {
+	                    field: 'log_detail',
+	                    width: 600,
+	                    title: 'threat_intelligence_description',
+	                    sortable: false,
+	                    fixed:true,
+	                },
+	                {
+	                    field: 'log_degree',
+	                    width: 200,
+	                    fixed:true,
+	                    title: 'label_emergency_degree',
+	                    formatter:function(value){
+								for(var i=0; i<headers.length; i++){
+									if (headers[i].headerid == value) return headers[i].headername;
+								}
+								return value;
+							},
+						editor:{
+							type:'combobox',
+							options:{
+								// width:207,
+								panelWidth:207,
+								panelHeight:'auto',
+								valueField:'headerid',
+								textField:'headername',
+								data: headers,
+								required:true,
+								editable:false,
+								onChange:function(newValue, oldValue){
+							       	update_submit(newValue, oldValue);
+							    }
+
+							}
+
+						}
+	                },
+	                {
+	                    field: 'id',
+	                    width: 100,
+	                    title: 'tb_aaa_server_operation',
+	                    sortable: false,
+	                    resizable:false,
+	                    fixed:true,
+	                    formatter: format_operation
+	                }
+	            ]],
+	            pageList: [20, 50],
+	            fit:true,
+	            border: false,
+	            fitColumns:true,            
+	            striped:true,
+	            rownumbers: true,
+	            pagination: true,
+	            pageSize: 20,
+	     //        data: [{
+	     //        			log_time: '2018-10-11 09:00:00',
+						// 	log_detail: '大量的文件上传漏洞',
+						// 	log_degree: '1',
+						// 	id:'111'
+
+						// }],
+				onClickRow: onClickRow
+	        });
+	        function format_operation(value,data,index){
+	            return '<a href="javascript:;" onclick="javascript:show_log_detail('+index+');">{lang tip_detail}</a>';
+	        }
+	        var editIndex = undefined;
+			function endEditing(){
+				if (editIndex == undefined){return true}
+				if ($('#hot_table').datagrid('validateRow', editIndex)){
+					var ed = $('#hot_table').datagrid('getEditor', {index:editIndex,field:'log_degree'});
+					var headername = $(ed.target).combobox('getText');
+					$('#hot_table').datagrid('getRows')[editIndex]['log_degree'] = headername;
+					$('#hot_table').datagrid('endEdit', editIndex);
+					editIndex = undefined;
+					return true;
+				} else {
+					return false;
+				}
+			}
+			function onClickRow(index){
+				if (editIndex != index){
+					if (endEditing()){
+						$('#hot_table').datagrid('selectRow', index)
+								.datagrid('beginEdit', index);
+						editIndex = index;
+					} else {
+						$('#hot_table').datagrid('selectRow', editIndex);
+					}
+				}
+			}
+
+			function update_submit(newValue, oldValue){
+				$('#hot_table').datagrid('updateRow',{
+					index: 1,
+					row: {
+						log_degree: 'newValue'
+					}
+				});
+			}
+		</script>
+
+
+</body>
+</html>
