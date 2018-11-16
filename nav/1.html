@@ -22,12 +22,19 @@
 		</div>
 		<div data-options="region:'center',border:false,fit:true" class="easyui-panel" style="width: 800px">
 			<div class="contain" >
+<<<<<<< HEAD
 				<div class="subcontain" id="chuqin" style="width: 600px">
 					<table id="dg" style="width: 600px"></table>
+=======
+				<div class="subcontain" id="chuqin">
+					<table class="easyui-datagrid" id="control_assets_tab" style="width:700px;height:480px">
+					</table>
+>>>>>>> 802bf2c9768511f7688210b62262fa8b665c335b
 				</div>
 			</div>
 		</div>
 	</div>
+<<<<<<< HEAD
 	    <div id="tb" style="height:auto">
 			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">Append</a>
 			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">Remove</a>
@@ -100,6 +107,45 @@
 			onClickRow: onClickRow,
 			
         });
+=======
+	<script type="text/javascript">
+			$('#control_assets_tab').datagrid({
+		        url: "checkinout.php",        
+		        columns: [[
+		        	
+		            {
+		                field: 'USERID',
+		                title: 'ID',
+		                width: '5%'
+		             
+		            },{
+		                field: 'Name',
+		                title: '姓名',
+		                width: '30%'
+		             
+		            },
+		            {
+		                field: 'first',
+		                title: '上班时间',
+		                width: '30%'
+		             
+		            }, {
+		                field: 'end',
+		                title: '下班时间',
+		                width: '30%'
+		            }
+		        
+			    ]],
+
+			    border: true,
+			    rownumbers: true,
+			    pagination: true,
+			    pageSize: 15,
+			    pageList: [15, 20],
+			    striped: true
+			});
+	</script>
+>>>>>>> 802bf2c9768511f7688210b62262fa8b665c335b
 
 
 	var editIndex = undefined;
@@ -151,4 +197,5 @@
 		});
 </script>
 </body>
+
 </html>
