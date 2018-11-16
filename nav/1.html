@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="../tab/js/easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
+<<<<<<< HEAD
 	<div class="easyui-layout" style="width: 1024px;height:600px;">
 		<div data-options="region:'north',border:false" class="layout-panel-north-height" style="width: 1024px;height:40px;">
 		    <div class="hui-Panel" id="Panel-1">
@@ -22,14 +23,104 @@
 		    </div>
 		</div>
 		<div data-options="region:'center',border:false,fit:true" class="easyui-panel" style="width:900px;height:480px">
+=======
+	<div class="easyui-layout" style="width: 800px;height: 1000px">
+		<div data-options="region:'north',border:false" class="layout-panel-north-height" style="width: 800px;height: 40px">
+		    <div class="hui-Panel" id="Panel-1">
+		        <div class="hui-Panel-header tab_bg" id="Header-1">
+		            <a href="javascript:;" class="nav-item active">aaa</a>
+		        </div>
+		    </div>
+		</div>
+		<div data-options="region:'center',border:false,fit:true" class="easyui-panel" style="width: 800px">
+>>>>>>> 56057d6474c400e3bce87dfa2d266c2f02c45a86
 			<div class="contain" >
+<<<<<<< HEAD
+				<div class="subcontain" id="chuqin" style="width: 600px">
+					<table id="dg" style="width: 600px"></table>
+=======
 				<div class="subcontain" id="chuqin">
 					<table class="easyui-datagrid" id="control_assets_tab" style="width:900px;height:480px">
 					</table>
+>>>>>>> 802bf2c9768511f7688210b62262fa8b665c335b
 				</div>
 			</div>
 		</div>
 	</div>
+<<<<<<< HEAD
+	    <div id="tb" style="height:auto">
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">Append</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">Remove</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">Accept</a>
+			
+		</div>
+
+<script>
+	var types = [
+		    {typeid:'1',name:'组件容器'},
+		    {typeid:'2',name:'CMS系统'},
+		    {typeid:'3',name:'语言'}
+		];
+	
+	$('#dg').datagrid({
+        	width: 510,  
+        	height:300,
+        	striped: true,  
+        	//queryParams:{},
+        	rownumbers: true,
+        	data: [{"type":"1","name":"php","header":"111","header_value":"aaa"
+						
+
+					}],
+        	columns:[[
+        		{
+        			field:'type',
+        			title: 'aaa',
+        			width: 100,
+        			formatter:function(value){
+							for(var i=0; i<types.length; i++){
+								if (types[i].typeid == value) return types[i].name;
+							}
+							return value;
+						},
+					editor:{
+						type:'combobox',
+						options:{
+							valueField:'typeid',
+							textField:'name',
+							data: types,
+							required:true
+                        
+
+						}
+					}
+        		},
+        		{
+        			field:'name',
+        			title: '姓名',
+        			width: 80,
+                    editor:'textbox'
+        		},
+        		{
+        			field:'header',
+        			title: '字段',
+        			// formatter:operate_format,align:'center',
+        			width:100
+        		},
+        		{
+        			field:'header_value',
+        			title: '键值',
+        			// formatter:operate_format,align:'center',
+        			width:80
+        		}
+        	]],
+        	iconCls: 'icon-edit',
+			singleSelect: true,
+			toolbar: '#tb',				
+			onClickRow: onClickRow,
+			
+        });
+=======
 	<script type="text/javascript">
 			$('#control_assets_tab').datagrid({
 		        url: "../tab/checkinout.php",        
@@ -87,8 +178,57 @@
 			    striped: true
 			});
 	</script>
+>>>>>>> 802bf2c9768511f7688210b62262fa8b665c335b
 
 
+	var editIndex = undefined;
+		function endEditing(){
+			if (editIndex == undefined){return true}
+			if ($('#dg').datagrid('validateRow', editIndex)){
+				var ed = $('#dg').datagrid('getEditor', {index:editIndex,field:'type'});
+				var value= $(ed.target).combobox('getText');
+				$('#dg').datagrid('getRows')[editIndex]['value'] = value;
+				$('#dg').datagrid('endEdit', editIndex);
+				editIndex = undefined;
+				return true;
+			} else {
+				return false;
+			}
+		}
+		function onClickRow(index){
+			if (editIndex != index){
+				if (endEditing()){
+					$('#dg').datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+					editIndex = index;
+				} else {
+					$('#dg').datagrid('selectRow', editIndex);
+				}
+			}
+		}
+		function append(){
+			if (endEditing()){
+				$('#dg').datagrid('appendRow',{type:'语言'});
+				editIndex = $('#dg').datagrid('getRows').length-1;
+				$('#dg').datagrid('selectRow', editIndex)
+						.datagrid('beginEdit', editIndex);
+			}
+		}
+		function removeit(){
+			if (editIndex == undefined){return }
+			$('#dg').datagrid('cancelEdit', editIndex)
+					.datagrid('deleteRow', editIndex);
+			editIndex = undefined;
+		}
+		function accept(){
+			if (endEditing()){
+				$('#dg').datagrid('acceptChanges');
+			}
+		}
+		$(function(){
+			$("#dg").datagrid("resize");
+		});
+</script>
 </body>
 
 </html>

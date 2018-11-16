@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test2</title>
+	<script src="../tab/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="../tab/js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../tab/js/easyui/themes/icon.css">	
+	<script type="text/javascript" src="../tab/js/easyui/jquery.easyui.min.js"></script>
+    
+</head>
+<body >
+	<div class="easyui-layout" style="width: 1200px;height: 600px">
+		<div data-options="region:'north',border:false" class="nav-wrapper">
+		    <div class="nav-main" id="Panel-1">
+		        <div class="nav-item-wrapper" id="Header-1">
+		            <a href="javascript:;" class="nav-item active">aaa</a>
+		        </div>
+		    </div>
+		</div>
+		<div data-options="region:'center',border:false"  style="width: 1200px;height: 580px">	
+			<table id="hot_table">			
+			</table>
+				
+
+		</div>
+	</div>
+
+		<script>
+			var headers = [
+				{headerid:'1',headername:'unprotected_risk'},
+				{headerid:'2',headername:'processed_risk'}
+
+			];
+
+			$('#hot_table').datagrid({
+				width: 1200,
+				height: 560,
+	            url:'test2.php',            
+	            columns: [[
+	                /*{
+	                    field: 'ck',
+	                    checkbox: true,
+	                },*/
+	                {
+	                    field: 'datetime',
+	                    width: 150,
+	                    title: 'outburst_date',
+	                    sortable: false,
+	                    resizable:false,
+	                    fixed:true
+	                },
+	                {
+	                    field: 'description',
+	                    width: 600,
+	                    title: 'threat_intelligence_description',
+	                    sortable: false,
+	                    fixed:true,
+	                },
+	                {
+	                    field: 'degree',
+	                    width: 200,
+	                    fixed:true,
+	                    title: 'label_emergency_degree',
+	                    formatter:function(value){
+								for(var i=0; i<headers.length; i++){
+									if (headers[i].headerid == value) return headers[i].headername;
+								}
+								return value;
+							},
+						editor:{
+							type:'combobox',
+							options:{
+								// width:207,
+								panelWidth:207,
+								panelHeight:'auto',
+								valueField:'headerid',
+								textField:'headername',
+								data: headers,
+								required:true,
+								editable:false,
+								onChange:function(oldValue,newValue){
+							       	confirm(oldValue,newValue);
+							    }
+
+							}
+
+						}
+	                },
+	                {
+	                    field: 'id',
+	                    width: 100,
+	                    title: 'tb_aaa_server_operation',
+	                    sortable: false,
+	                    resizable:false,
+	                    fixed:true,
+	                    formatter: format_operation
+	                }
+	            ]],
+	            pageList: [20, 50],
+	            fit:true,
+	            border: false,
+	            fitColumns:true,            
+	            striped:true,
+	            rownumbers: true,
+	            pagination: true,
+	            pageSize: 20,
+	            // rowStyler: function(index,row){
+	            // 	rowcolor(index,row);
+	            // },
+	     //        data: [{
+	     //        			log_time: '2018-10-11 09:00:00',
+						// 	log_detail: '大量的文件上传漏洞',
+						// 	log_degree: '1',
+						// 	id:'111'
+
+						// }],
+				// onClickRow: function(index,row){
+				// 	// row.editing = true;
+				// 	// console.log("onclick :"+index,JSON.stringify(row));
+				// 	onClickRow(index,row);
+				// },
+				onClickCell: function(index,field,value){
+					// row.editing = true;
+					// console.log("onclick :"+index,JSON.stringify(row));
+					if(field == "degree"){
+						onClickRow(index,field,value);
+					}
+					
+				},
+				onAfterEdit:function(index,row,changes){//行号，行的所有数据，改变的数据
+				    console.log("index"+JSON.stringify(index));
+				    console.log("row"+JSON.stringify(row));
+				    console.log("changes"+JSON.stringify(changes));				    
+				    var change = false;//判断是否需要提交
+				    for(x in changes){
+				        change = true;
+				        break;
+				    }
+				    var confirm = 0;
+				    if(change){
+				        console.log("在这里将改变提交到后台。");
+				        //执行正常就接受改变，否则撤销改变
+				        // $.messager.confirm('提示','确定提交么?',function(r){
+				        // 	if (r){				        		
+				        		// $("#hot_table").datagrid("acceptChanges");
+				        		console.log("接受改变");
+				        		$.ajax({
+						            url:'updatetest2.php',
+						            type:'post',
+						            data:{
+						            	degree:changes['degree'],
+						                id: row['id'],
+						                },
+						            dataType:'json',
+						            sunccess:function(data){
+						            	aler("修改成功");
+						        }
+						        });
+				        // 	}
+				        	
+				        // });
+				    //     console.log("confirm"+confirm);
+				    //     // $("#hot_table").datagrid("acceptChanges");
+                        
+                        
+				        
+				    }
+				},
+				
+	        });
+	        function format_operation(value,data,index){
+	            return '<a href="javascript:;" onclick="javascript:show_log_detail(\''+data+'\',\''+index+'\');">{lang tip_detail}</a>';
+	        }
+	        var editIndex = undefined;
+	        var clicknum  = 0;
+			
+			function onClickRow(index,field,value){
+				console.log("field: "+field);
+				if(clicknum == 0){
+					console.log("click0: "+editIndex,index);
+					if (editIndex != index){
+					    if(editIndex != undefined){
+					    	$('#hot_table').datagrid('endEdit', editIndex);
+							// $("#hot_table").datagrid("acceptChanges");
+					    }					
+						$('#hot_table').datagrid('selectRow', index)
+								.datagrid('beginEdit', index);
+					    editIndex = index;						
+					}
+					else{
+						$('#hot_table').datagrid('endEdit', editIndex);
+						// $("#hot_table").datagrid("acceptChanges");
+					}
+					clicknum = 1;
+				}
+				else{
+					console.log("click1: "+editIndex+index);
+					$('#hot_table').datagrid('endEdit', editIndex);
+					// $("#hot_table").datagrid("acceptChanges");
+					// editIndex = undefined;
+					if(editIndex == index){
+						editIndex = undefined;
+					}
+					else{
+						$('#hot_table').datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+				    	editIndex = index;
+					}					
+					clicknum = 0;
+				}
+			}
+			function rowcolor(index,row){
+				if(editIndex != index){
+					return 'background-color:#6293BB;color:#fff;'; 
+				}
+			}			
+			function show_log_detail(data,index){
+				// $('#hot_table').datagrid('endEdit', index);
+
+			}
+
+			function confirm(oldValue,newValue){
+				console.log("old: "+oldValue+"new: "+newValue);
+                        if(newValue != "" ){
+
+						         $.messager.confirm('提示','确定提交么?',function(r){
+						         	if(r){
+						         		$("#hot_table").datagrid("acceptChanges");
+						         	}
+						         });
+                        }
+
+				        
+			}
+
+
+
+
+		</script>
+
+
+</body>
+</html>
