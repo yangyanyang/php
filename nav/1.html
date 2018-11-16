@@ -12,18 +12,19 @@
 	<script type="text/javascript" src="../tab/js/easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
-	<div class="easyui-layout">
-		<div data-options="region:'north',border:false" class="layout-panel-north-height">
+	<div class="easyui-layout" style="width: 1024px;height:600px;">
+		<div data-options="region:'north',border:false" class="layout-panel-north-height" style="width: 1024px;height:40px;">
 		    <div class="hui-Panel" id="Panel-1">
 		        <div class="hui-Panel-header tab_bg" id="Header-1">
-		            <a href="javascript:;" class="nav-item active">{lang tree_ips_inner_assets_conf}</a>
+		            <a href="javascript:;" class="nav-item active">aaa
+		            </a>
 		        </div>
 		    </div>
 		</div>
-		<div data-options="region:'center',border:false,fit:true" class="easyui-panel">
+		<div data-options="region:'center',border:false,fit:true" class="easyui-panel" style="width:900px;height:480px">
 			<div class="contain" >
 				<div class="subcontain" id="chuqin">
-					<table class="easyui-datagrid" id="control_assets_tab" style="width:700px;height:480px">
+					<table class="easyui-datagrid" id="control_assets_tab" style="width:900px;height:480px">
 					</table>
 				</div>
 			</div>
@@ -31,30 +32,50 @@
 	</div>
 	<script type="text/javascript">
 			$('#control_assets_tab').datagrid({
-		        url: "checkinout.php",        
+		        url: "../tab/checkinout.php",        
 		        columns: [[
 		        	
 		            {
 		                field: 'USERID',
 		                title: 'ID',
-		                width: '5%'
+		                width: '24'
 		             
 		            },{
 		                field: 'Name',
 		                title: '姓名',
-		                width: '30%'
+		                width: '100'
 		             
 		            },
 		            {
 		                field: 'first',
 		                title: '上班时间',
-		                width: '30%'
+		                width: '210'
 		             
 		            }, {
 		                field: 'end',
 		                title: '下班时间',
-		                width: '30%'
-		            }
+		                width: '210'
+		            },
+		            {
+		                field: 'ifchuqin',
+		                title: '是否出勤',
+		                width: '60'
+		            },
+		            {
+		                field: 'if加班',
+		                title: '是否加班',
+		                width: '60'
+		            },
+		            {
+		                field: 'ischidao',
+		                title: '是否迟到',
+		                width: '60'
+		            },
+		            {
+		                field: 'isqingjia',
+		                title: '是否请假',
+		                width: '60'
+		            },
 		        
 			    ]],
 

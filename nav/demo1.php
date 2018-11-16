@@ -1,5 +1,5 @@
 <?php 
-header("Content-type:application/json;charset=utf-8");
+header("Content-type:text/html;charset=utf-8");
 	//横坐标
 	$legend = array(0=>"杨艳阳",1=>"张康康");
 	$xAxis_data = array("出勤","迟到","晚上加班次数","周末加班次数","请假","aa");
@@ -29,7 +29,7 @@ header("Content-type:application/json;charset=utf-8");
 	$result["xAxis_data"] = $xAxis_data;
 	$result["series"] = $series;
 	//header("Content-Type:application/json");
-	echo json_encode($result);
+	// echo json_encode($result);
 
 // $obj1 = array(20, 1, 7, 0, 0, 1);
 // $obj2 = array(19, 3, 8, 1, 1, 1);
@@ -37,4 +37,6 @@ header("Content-type:application/json;charset=utf-8");
 // // $data2 = {19, 3, 8, 1, 1, 1};
 // $age = array("杨艳阳"=>$obj2,"张康康"=>$obj1);
 // echo json_encode($age);
+$name = 'yyy';
+echo '<a herf="">logout()</a>';
 ?>
