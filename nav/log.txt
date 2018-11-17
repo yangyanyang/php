@@ -53,3 +53,36 @@
  UPDATE threat SET degree = '1' where id = 3 
  UPDATE threat SET degree = '1' where id = 3 
  UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '1' where id = 3 
+ UPDATE threat SET degree = '2' where id = 3 
+ UPDATE threat SET degree = '1' where id = 2 
+ UPDATE threat SET degree = '2' where id = 2 
+ UPDATE threat SET degree = '1' where id = 3 

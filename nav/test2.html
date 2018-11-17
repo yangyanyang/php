@@ -67,6 +67,7 @@
 								for(var i=0; i<headers.length; i++){
 									if (headers[i].headerid == value) return headers[i].headername;
 								}
+								select = value;
 								return value;
 							},
 						editor:{
@@ -80,20 +81,28 @@
 								data: headers,
 								required:true,
 								editable:false,
-								onUnselect:function(oldValue){
-									// console.log("unselect: "+JSON.stringify(select)+JSON.stringify(oldValue));
-									select = oldValue;
+								// onUnselect:function(oldValue){
+								// 	// console.log("unselect: "+JSON.stringify(select)+JSON.stringify(oldValue));
+								// 	// select = oldValue;
 							       	
-							    },
-							    onSelect:function(newValue){
-							    	console.log("select: "+JSON.stringify(select)+JSON.stringify(newValue));
-							    	if(select != undefined){
-							    		console.log("selectaaa"+select['headerid']+newValue['headerid'])
-							    		if(select['headerid'] != newValue['headerid'] ){
-											confirm(newValue);
-										}
+							 //    },
+							 //    onSelect:function(newValue){
+							 //    	console.log("select: "+select+JSON.stringify(select)+JSON.stringify(newValue));
+							 //    	// select = this;
+							 //    	if(select != undefined){
+							 //    		console.log("selectaaa"+select['headerid']+newValue['headerid'])
+							 //    		if(select['headerid'] != newValue['headerid'] ){
+								// 			confirm(newValue);
+								// 		}
+							 //    	}
+							       	
+							 //    },
+							    onChange:function(new1,old){
+							    	// console.log("onchange: new"+new1,"old: "+old)
+							    	if(old != ""){
+							    		confirm1(new1,old);
 							    	}
-							       	
+
 							    },
 
 							}
@@ -118,6 +127,7 @@
 	            rownumbers: true,
 	            pagination: true,
 	            pageSize: 20,
+	            idField:'id',
 	            onClickCell: function(index,field,value){
 					// row.editing = true;
 					// console.log("onclick :"+index,JSON.stringify(row));
@@ -125,6 +135,10 @@
 						onClickRow(index,field,value);
 					}
 					
+				},
+				onLoadSuccess:function(data){
+					startEdit(data);
+
 				},
 				// onBeforeEdit:function(index,row){
 				// 	row.editing = true;
@@ -151,8 +165,7 @@
 
 
 	        var editIndex = undefined;
-	        var clicknum  = 0;
-			
+	        var endIndex = undefined;			
 			function onClickRow(index,field,value){
 				if(editIndex != index){
 					//first click 
@@ -160,28 +173,62 @@
 						$('#hot_table').datagrid('selectRow', index)
 									.datagrid('beginEdit', index);
 						editIndex = index;
+						endIndex = index;
+						console.log("1: "+endIndex);
 					}
 					//
 					else{
-						$('#hot_table').datagrid('endEdit', editIndex);
+						$('#hot_table').datagrid('endEdit', editIndex);							
 						$('#hot_table').datagrid('selectRow', index)
 									.datagrid('beginEdit', index);
-						editIndex = index;
-					}					
+						endIndex = index;
+						console.log("2: "+endIndex);
+						editIndex = index;					}					
 				}
 				else{
-					$('#hot_table').datagrid('endEdit', editIndex);
-					 editIndex = undefined;
+					$('#hot_table').datagrid('endEdit', editIndex);					
+					editIndex = undefined;
+
+
 				}
 
 			}
-			function rowcolor(index,row){
-				if(editIndex != index){
-					return 'background-color:#6293BB;color:#fff;'; 
-				}
-			}			
+					
 			function show_log_detail(data,index){
 				// $('#hot_table').datagrid('endEdit', index);
+
+			}
+			function confirm1(new1,old){
+				console.log("new: "+new1,"old: "+old);
+				        $.messager.confirm('提示','确定提交么?',function(r){
+				         	if(r){
+				         		$("#hot_table").datagrid("acceptChanges");
+				         		
+				         		// var index1 =$('#hot_table').datagrid("getRowIndex",{degree:"1",});
+				         		console.log("index1: "+endIndex);
+				         		// var index =$('#hot_table').datagrid("getRowIndex");
+				         		$('#hot_table').datagrid('selectRow', endIndex);
+				         		var row = $('#hot_table').datagrid("getSelected");
+				         	    $('#hot_table').datagrid('unselectRow', endIndex);
+				         		var id = row['id'];
+				         		console.log("id"+id+"index"+endIndex+JSON.stringify(row));
+				         		console.log("接受改变");
+				        		$.ajax({
+						            url:'updatetest2.php',
+						            type:'post',
+						            data:{
+						            	degree:new1,
+						                id: id,
+						                },
+						            dataType:'json',
+						            success:function(data){
+						            	// console.log("111");
+						            	alert("修改成功");
+						        }
+						        });
+
+				         	}
+				         });
 
 			}
 
@@ -190,8 +237,7 @@
                 if(newValue != "" ){
 			        $.messager.confirm('提示','确定提交么?',function(r){
 			         	if(r){
-			         		$("#hot_table").datagrid("acceptChanges");
-			         		
+			         		$("#hot_table").datagrid("acceptChanges");			         		
 			         		var index =$('#hot_table').datagrid("getRowIndex");
 			         		$('#hot_table').datagrid('selectRow', index);
 			         		var row = $('#hot_table').datagrid("getSelected");
@@ -213,11 +259,30 @@
 					        });
 
 			         	}
+			         	else{
+			         		$("#hot_table").datagrid("rejectChanges");
+			         	}
 			         });
                 }
 
 				        
 			}
+			function startEdit(data){
+				for(var i in data['group']){
+					// console.log(i,JSON.stringify(data['group'][i]));
+					id = data['group'][i]['id'];
+					var index =$('#hot_table').datagrid("getRowIndex",id);
+					$('#hot_table').datagrid('beginEdit', index);
+				}
+			}
+			$(function(){
+				// $("#hot_table").datagrid("selectAll");
+				var row1 = $("#hot_table").datagrid("getRows");
+				
+				// $("#hot_table").datagrid("unselectAll");
+
+
+			});
 		</script>
 
 
